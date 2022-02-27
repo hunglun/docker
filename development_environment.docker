@@ -1,0 +1,22 @@
+ARG VERSION=20.04 # April 2030 end of life
+FROM ubuntu:$VERSION
+
+
+# main basic tools
+
+# NOTE: emacs require manual configuration of geographic and time zone.
+# So I put it first. The rest can run automatically. Hopefully.
+
+RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
+    && apt-get update && apt-get install software-properties-common \
+    && apt-add-repository ppa:kelleyk/emacs \
+    && apt-get update && apt-get install emacs27 \
+    
+# configure zsh
+RUN apt-get install \
+    zsh \
+    wget \
+    git \
+    && sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    
+    
